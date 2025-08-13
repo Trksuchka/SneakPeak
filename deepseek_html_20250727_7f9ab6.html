@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakPeak - Премиальные кроссовки</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-accent: #2a2a2a;
+            --primary: #6c5ce7;
+            --primary-light: #7e6ef0;
+            --text: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --success: #00b894;
+            --border: #333333;
+            --danger: #e17055;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .logo span {
+            color: var(--text);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .header-icon {
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .header-icon:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') no-repeat center center/cover;
+            padding: 100px 0;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+        
+        .promo-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Content - Home Page */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .card {
+            background-color: var(--dark-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-gallery {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-image {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        
+        .size-selection {
+            padding: 25px;
+        }
+        
+        .size-selection h3 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: var(--text);
+        }
+        
+        .sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .size-option {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--dark-accent);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+        
+        .size-option:hover {
+            background-color: var(--primary);
+        }
+        
+        .size-option.selected {
+            background-color: var(--primary);
+            border-color: white;
+        }
+        
+        .product-details {
+            padding: 30px;
+        }
+        
+        .product-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .price-module {
+            background-color: var(--dark-accent);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .price-module h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+        
+        .discount {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .btn-secondary {
+            background-color: var(--dark-accent);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #333;
+        }
+        
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .feature-card {
+            background-color: var(--dark-card);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+        }
+        
+        /* Collection Page */
+        .collection-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .collection-header h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .collection-description {
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: var(--dark-accent);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background: var(--dark-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .product-card-img {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--dark-accent);
+            cursor: pointer;
+        }
+        
+        .product-card-img img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+        }
+        
+        .product-card-info {
+            padding: 20px;
+        }
+        
+        .product-card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .product-card-price {
+            font-size: 22px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .product-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .product-card-actions .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        /* Cart Page */
+        .cart-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .cart-header h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .cart-items {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .cart-item {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-img {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-accent);
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        
+        .cart-item-img img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .cart-item-price {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .cart-item-size {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            background: var(--dark-accent);
+            border-radius: 30px;
+            padding: 5px 15px;
+        }
+        
+        .quantity-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 18px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity {
+            margin: 0 10px;
+            font-weight: 600;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .cart-summary {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 30px;
+            align-self: flex-start;
+        }
+        
+        .summary-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .summary-details {
+            margin-bottom: 30px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .summary-label {
+            color: var(--text-secondary);
+        }
+        
+        .summary-value {
+            font-weight: 600;
+        }
+        
+        .summary-total {
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        
+        .summary-total .summary-value {
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        
+        .modal-content {
+            background: var(--dark-card);
+            border-radius: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            animation: modalFade 0.3s ease-out;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+        
+        .modal-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-accent);
+            border-radius: 10px;
+            padding: 30px;
+        }
+        
+        .modal-image img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        
+        .modal-details {
+            padding: 20px 0;
+        }
+        
+        .modal-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .modal-price {
+            font-size: 28px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .modal-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .modal-size-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-accent);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding: 40px 0;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        /* Animations */
+        @keyframes modalFade {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 28px;
+            }
+            
+            .hero-content p {
+                font-size: 16px;
+            }
+            
+            .product-title {
+                font-size: 26px;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .cart-item-img {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-shoe-prints"></i>
+                <span>SNEAK</span>PEAK
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Главная</a></li>
+                    <li><a href="#" class="nav-link" data-page="collection">Коллекция</a></li>
+                    <li><a href="#" class="nav-link" data-page="cart">Корзина</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <i class="fas fa-search header-icon"></i>
+                <i class="fas fa-user header-icon"></i>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart header-icon"></i>
+                    <span class="cart-count">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="container hero-content">
+                <div class="promo-badge">Полная действия</div>
+                <h1>Эксклюзивные кроссовки для активного образа жизни</h1>
+                <p>Напитки, подписи, на поле - всё для вашего комфорта и стиля</p>
+            </div>
+        </section>
+        
+        <!-- Main Content -->
+        <div class="container">
+            <div class="main-content">
+                <!-- Product Gallery -->
+                <div class="product-gallery card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80" alt="Премиум кроссовки">
+                    </div>
+                    <div class="size-selection">
+                        <h3>Выбор размера</h3>
+                        <div class="sizes">
+                            <div class="size-option">38</div>
+                            <div class="size-option">39</div>
+                            <div class="size-option selected">40</div>
+                            <div class="size-option">41</div>
+                            <div class="size-option">42</div>
+                            <div class="size-option">43</div>
+                            <div class="size-option">44</div>
+                            <div class="size-option">45</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Details -->
+                <div class="product-details card">
+                    <h2 class="product-title">Nike Air Max Premium</h2>
+                    <p class="product-description">
+                        Инновационные кроссовки для максимального комфорта и производительности. 
+                        Идеальный выбор для спортсменов и активных людей. 
+                        Технология Air Max обеспечивает превосходную амортизацию и поддержку.
+                    </p>
+                    
+                    <!-- Price Module -->
+                    <div class="price-module">
+                        <h3>Модульная цена при заказном измерителе</h3>
+                        <div class="price">8 499 ₽</div>
+                        <div>
+                            <span class="original-price">9 999 ₽</span>
+                            <span class="discount">-15%</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Добавить в корзину
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Features Section -->
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="feature-title">Бесплатная доставка</h3>
+                    <p class="feature-description">Бесплатная доставка по всей России при заказе от 5000 ₽</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h3 class="feature-title">Легкий возврат</h3>
+                    <p class="feature-description">Возврат товара в течение 30 дней без вопросов</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Гарантия качества</h3>
+                    <p class="feature-description">Официальная гарантия производителя 12 месяцев</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Collection Page -->
+    <section id="collection" class="page-section">
+        <div class="container">
+            <div class="collection-header">
+                <h2>Коллекция кроссовок</h2>
+                <p class="collection-description">
+                    Откройте для себя нашу эксклюзивную коллекцию премиальных кроссовок от ведущих мировых брендов. 
+                    Каждая модель создана для вашего комфорта и стиля.
+                </p>
+                <div class="filters">
+                    <button class="filter-btn active">Все</button>
+                    <button class="filter-btn">Беговые</button>
+                    <button class="filter-btn">Баскетбольные</button>
+                    <button class="filter-btn">Повседневные</button>
+                    <button class="filter-btn">Лимитированная серия</button>
+                </div>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-card-img open-modal" data-id="1">
+                        <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=725&q=80" alt="Adidas Ultraboost">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Adidas Ultraboost</h3>
+                        <div class="product-card-price">10 999 ₽</div>
+                        <div class="product-card-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-card-img open-modal" data-id="2">
+                        <img src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80" alt="Nike Air Jordan">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Nike Air Jordan</h3>
+                        <div class="product-card-price">15 499 ₽</div>
+                        <div class="product-card-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-card-img open-modal" data-id="3">
+                        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Puma RS-X">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Puma RS-X</h3>
+                        <div class="product-card-price">8 799 ₽</div>
+                        <div class="product-card-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-card-img open-modal" data-id="4">
+                        <img src="https://images.unsplash.com/photo-1605408499391-6368c628ef42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="New Balance 574">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">New Balance 574</h3>
+                        <div class="product-card-price">9 299 ₽</div>
+                        <div class="product-card-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Cart Page -->
+    <section id="cart" class="page-section">
+        <div class="container">
+            <div class="cart-header">
+                <h2>Ваша корзина</h2>
+                <p>Проверьте выбранные товары перед оформлением заказа</p>
+            </div>
+            
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h3>Товары (3)</h3>
+                    
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80" alt="Nike Air Max">
+                        </div>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">Nike Air Max Premium</h4>
+                            <div class="cart-item-price">8 499 ₽</div>
+                            <div class="cart-item-size">Размер: 40</div>
+                            <div class="cart-item-actions">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                                <button class="remove-btn">
+                                    <i class="fas fa-trash"></i> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=725&q=80" alt="Adidas Ultraboost">
+                        </div>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">Adidas Ultraboost</h4>
+                            <div class="cart-item-price">10 999 ₽</div>
+                            <div class="cart-item-size">Размер: 42</div>
+                            <div class="cart-item-actions">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                                <button class="remove-btn">
+                                    <i class="fas fa-trash"></i> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80" alt="Nike Air Jordan">
+                        </div>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">Nike Air Jordan</h4>
+                            <div class="cart-item-price">15 499 ₽</div>
+                            <div class="cart-item-size">Размер: 41</div>
+                            <div class="cart-item-actions">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                                <button class="remove-btn">
+                                    <i class="fas fa-trash"></i> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <h3 class="summary-title">Итог заказа</h3>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span class="summary-label">Товары (3)</span>
+                            <span class="summary-value">34 997 ₽</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Скидка</span>
+                            <span class="summary-value">-1 500 ₽</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Доставка</span>
+                            <span class="summary-value">Бесплатно</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">Итого</span>
+                            <span class="summary-value">33 497 ₽</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary checkout-btn">
+                        Оформить заказ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modal-img" src="" alt="Product Image">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modal-title" class="modal-title">Product Title</h2>
+                    <div id="modal-price" class="modal-price">0 ₽</div>
+                    <p id="modal-description" class="modal-description">
+                        Product description will be loaded here...
+                    </p>
+                    
+                    <h3 class="modal-size-title">Выберите размер:</h3>
+                    <div class="sizes">
+                        <div class="size-option">38</div>
+                        <div class="size-option">39</div>
+                        <div class="size-option selected">40</div>
+                        <div class="size-option">41</div>
+                        <div class="size-option">42</div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i> Добавить в корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SNEAKPEAK</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Премиальные кроссовки для требовательных покупателей. Качество, стиль и комфорт.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Категории</h3>
+                    <ul>
+                        <li><a href="#">Беговые</a></li>
+                        <li><a href="#">Баскетбольные</a></li>
+                        <li><a href="#">Повседневные</a></li>
+                        <li><a href="#">Лимитированная серия</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul>
+                        <li><a href="#">Доставка и оплата</a></li>
+                        <li><a href="#">Возврат товара</a></li>
+                        <li><a href="#">Таблица размеров</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +7 (495) 123-45-67</li>
+                        <li><i class="fas fa-envelope"></i> info@sneakpeak.ru</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Спортивная, 15</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2023 SNEAKPEAK. Все права защищены.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Навигация по страницам
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                
+                // Обновляем активные элементы навигации
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Показываем выбранную страницу
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // Выбор размера
+        const sizeOptions = document.querySelectorAll('.size-option');
+        
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Удаляем класс selected у всех опций в родительском контейнере
+                const parent = option.closest('.sizes');
+                parent.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Добавляем класс selected к выбранной опции
+                option.classList.add('selected');
+            });
+        });
+        
+        // Модальное окно
+        const modal = document.getElementById('product-modal');
+        const openModalButtons = document.querySelectorAll('.open-modal');
+        const closeModal = document.querySelector('.close-modal');
+        
+        // Данные о товарах
+        const products = {
+            1: {
+                title: "Adidas Ultraboost",
+                price: "10 999 ₽",
+                description: "Кроссовки Adidas Ultraboost сочетают в себе передовые технологии и современный дизайн. Модель оснащена инновационной подошвой Boost, обеспечивающей максимальную амортизацию и возврат энергии при каждом шаге. Верх из переработанных материалов обеспечивает поддержку и комфорт.",
+                image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=725&q=80"
+            },
+            2: {
+                title: "Nike Air Jordan",
+                price: "15 499 ₽",
+                description: "Легендарные кроссовки Nike Air Jordan - символ баскетбольной культуры. Модель сохранила культовый дизайн оригинальной версии, дополненный современными технологиями. Удобная посадка, отличная амортизация и узнаваемый стиль делают эти кроссовки желанными для коллекционеров и спортсменов.",
+                image: "https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80"
+            },
+            3: {
+                title: "Puma RS-X",
+                price: "8 799 ₽",
+                description: "Puma RS-X - это современная интерпретация ретро-модели 1980-х годов. Модель отличается многослойным дизайном, смелыми цветовыми решениями и технологичной подошвой. Кроссовки сочетают в себе комфорт, поддержку и уникальный стиль, подходящий для повседневной носки.",
+                image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+            },
+            4: {
+                title: "New Balance 574",
+                price: "9 299 ₽",
+                description: "Классические кроссовки New Balance 574 - это идеальное сочетание стиля, комфорта и качества. Модель с культовым силуэтом из 1980-х годов выполнена из премиальных материалов. Удобная стелька и амортизирующая подошва обеспечивают комфорт при длительной носке.",
+                image: "https://images.unsplash.com/photo-1605408499391-6368c628ef42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+            }
+        };
+        
+        // Открытие модального окна
+        openModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-id');
+                const product = products[productId];
+                
+                document.getElementById('modal-title').textContent = product.title;
+                document.getElementById('modal-price').textContent = product.price;
+                document.getElementById('modal-description').textContent = product.description;
+                document.getElementById('modal-img').src = product.image;
+                
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Закрытие модального окна
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Управление количеством товаров в корзине
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const quantityElement = button.parentElement.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.textContent);
+                
+                if (button.textContent === '+' && quantity < 10) {
+                    quantity++;
+                } else if (button.textContent === '-' && quantity > 1) {
+                    quantity--;
+                }
+                
+                quantityElement.textContent = quantity;
+            });
+        });
+        
+        // Удаление товара из корзины
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const cartItem = button.closest('.cart-item');
+                cartItem.style.opacity = '0';
+                setTimeout(() => {
+                    cartItem.remove();
+                }, 300);
+            });
+        });
+        
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.product-gallery, .product-details, .feature-card');
+            
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
